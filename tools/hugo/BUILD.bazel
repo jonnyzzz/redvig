@@ -1,6 +1,36 @@
-# IMAGE pins the Hugo container by digest. Both the build rule and the dev preview read it,
-# so changing it rebuilds the site.
-exports_files([
-    "IMAGE",
-    "hugo_build.sh",
-])
+load(":defs.bzl", "hugo_binary", "hugo_toolchain")
+
+# Hugo is a pinned release binary per platform (see extensions.bzl), picked by toolchain
+# resolution for the machine that runs the build.
+toolchain_type(name = "toolchain_type")
+
+exports_files(["hugo_build.sh"])
+
+hugo_binary(
+    name = "hugo",
+    visibility = ["//visibility:public"],
+)
+
+[
+    (
+        hugo_toolchain(
+            name = "hugo_" + name,
+            hugo = binary,
+            # Keep //... from fetching every platform's Hugo; resolution still finds them.
+            tags = ["manual"],
+        ),
+        toolchain(
+            name = name + "_toolchain",
+            exec_compatible_with = constraints,
+            toolchain = ":hugo_" + name,
+            toolchain_type = ":toolchain_type",
+        ),
+    )
+    for name, binary, constraints in [
+        ("darwin", "@hugo_darwin//:hugo", ["@platforms//os:macos"]),
+        ("linux_amd64", "@hugo_linux_amd64//:hugo", ["@platforms//os:linux", "@platforms//cpu:x86_64"]),
+        ("linux_arm64", "@hugo_linux_arm64//:hugo", ["@platforms//os:linux", "@platforms//cpu:aarch64"]),
+        ("windows_amd64", "@hugo_windows_amd64//:hugo.exe", ["@platforms//os:windows", "@platforms//cpu:x86_64"]),
+        ("windows_arm64", "@hugo_windows_arm64//:hugo.exe", ["@platforms//os:windows", "@platforms//cpu:aarch64"]),
+    ]
+]

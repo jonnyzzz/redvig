@@ -16,8 +16,8 @@ which reads `.bazelversion` and downloads that Bazel. We commit a tiny wrapper a
 | `bazelw` (POSIX `sh`) and `bazelw.cmd` (Windows) | Download Bazelisk `v1.31.0` for this OS and CPU, check its SHA-256, cache it in `~/.cache/redvig/bazelisk/` (`%LOCALAPPDATA%\redvig\bazelisk\` on Windows), and run it with the given arguments |
 | `.bazelversion` | Pins Bazel (`9.3.3`). Bazelisk downloads it into `~/.cache/bazelisk/` and checks Bazel's signature |
 
-What the machine needs: `sh`, `curl` or `wget`, `sha256sum` or `shasum`, and Docker for the website.
-These are the same tools the install scripts need ([install-scripts.md](../distribution/install-scripts.md)).
+What the machine needs: `sh`, `curl` or `wget`, and `sha256sum` or `shasum`. No Docker, no Hugo, no
+JDK. These are the same tools the install scripts need ([install-scripts.md](../distribution/install-scripts.md)).
 
 To upgrade: change `.bazelversion`. To upgrade Bazelisk: change the version and the four (plus two
 Windows) hashes in the wrappers, using the `digest` values from the GitHub release.
@@ -29,8 +29,7 @@ MODULE.bazel           Bazel modules (bzlmod; Bazel 9 has no WORKSPACE)
 MODULE.bazel.lock      resolved module graph, committed; CI fails when stale (--config=ci)
 .bazelrc               shared flags; machine flags go in user.bazelrc (git-ignored)
 BUILD.bazel            the root package
-tools/docker/repo.bzl  @docker_cli//:docker, the host docker CLI with an absolute path
-tools/hugo/            hugo_site rule, its action script, and IMAGE (Hugo image pinned by digest)
+tools/hugo/            Hugo toolchain: pinned binaries (extensions.bzl), rules (defs.bzl), action script
 website/BUILD.bazel    //website:site, //website:site_test, //website:dev
 ```
 
@@ -42,29 +41,37 @@ website/BUILD.bazel    //website:site, //website:site_test, //website:dev
 
 ## How the website builds
 
-The rule is that Hugo runs only in the pinned Docker image. Bazel keeps that rule:
+Hugo is a single static Go binary, and the site uses no Sass, image processing, or JS pipes. So the
+build uses a plain Hugo release binary as a Bazel toolchain rather than a container:
 
-1. `hugo_site` declares every file under `content/`, `layouts/`, `static/`, and `hugo.toml` as
-   inputs, plus `tools/hugo/IMAGE`. The action key covers all sources and the image digest, so a
-   cached result is correct: the same inputs give the same site.
-2. The action copies the sources (resolving the sandbox's symlinks) into a tar, pipes it into
-   `docker run --network none`, runs Hugo, and reads the site back as a tar on stdout. Nothing is
-   bind-mounted, so this works in the macOS and Linux sandboxes and with a remote Docker daemon.
-3. The action is tagged `no-remote-exec` because it needs the local Docker daemon. Its outputs can
-   still go to a remote cache.
-4. Actions run with a fixed `PATH` (`--incompatible_strict_action_env`). `@docker_cli` finds `docker`
-   once, when the repository is fetched, so Homebrew and Docker Desktop installs work. A machine
-   without Docker can still build every target that does not need it.
+1. `tools/hugo/extensions.bzl` declares one repository per platform: Linux and Windows (amd64 and
+   arm64), and macOS (universal). Each archive is pinned by the SHA-256 from Hugo's `checksums.txt`.
+   macOS ships only a `.pkg`, so a small repository rule unpacks it with `pkgutil`.
+2. `tools/hugo/BUILD.bazel` registers a toolchain for each one. Toolchain resolution picks the one for
+   the machine that runs the build, and only that archive is downloaded. The per-platform targets are
+   tagged `manual` so that `//...` does not fetch them all.
+3. `hugo_site` declares every file under `content/`, `layouts/`, `static/`, and `hugo.toml` as inputs.
+   The action copies them out of the sandbox (Hugo does not follow the sandbox's symlinks) and runs
+   Hugo with an empty environment, a private `HOME` and cache, and `block-network`.
+4. The action key covers the sources, the action script, and the Hugo binary. So results are shared
+   across machines through a disk or remote cache, and the action can run on remote executors.
+5. `bazel run //website:dev` runs the same binary as a live-reload server on the real `website/`
+   directory, so edits reload. It is a `bazel run` target, not a build action.
 
-The dev preview stays outside the action graph on purpose. It bind-mounts the real `website/` so
-edits reload, which Bazel actions must not do.
+The output is byte-for-byte identical to the earlier Docker-based build (checked with `diff -r` on
+2026-11-26).
 
-We considered and rejected two alternatives:
+We considered and dropped two alternatives:
 
-- **A Hugo binary fetched with `http_archive`.** This would be more hermetic and need no Docker, but it
-  breaks the Docker-only rule and needs a binary per platform.
-- **`rules_oci` to pull the image.** It pins the image in `MODULE.bazel`, but `docker load` still needs
-  a daemon. The digest in `IMAGE` gives the same guarantee for less code.
+- **Hugo in the pinned Docker image.** This was the first version. It needed a running Docker daemon
+  that Bazel cannot see. It pulled the image during the build, outside Bazel's fetch and cache, and
+  ignored `DOCKER_HOST`. Its cache keys depended on the host's docker path, it could not run remotely
+  or on Windows runners, and Docker Desktop needs a paid licence in larger companies.
+- **Building Hugo from source with `rules_go`.** This would be the most hermetic, but it adds a large
+  Go dependency graph and a slow first build for no gain over checksum-pinned releases.
+
+Windows note: the `hugo_site` action is a POSIX `sh` script, so Windows builds need Bazel's MSYS2
+`bash`, which GitHub's Windows runners have. The Windows Hugo toolchains are already registered.
 
 ## Next: install scripts and their tests
 
@@ -75,7 +82,7 @@ The [test strategy](../distribution/test-strategy.md) maps onto Bazel like this:
 | `render(templates, version, modules)` generator | A binary target (`//dist/installgen`), in Kotlin once the JVM rules are in, and called by a rule `install_scripts(templates, module_table)` |
 | Rendered `install.sh` / `install.ps1` | Outputs of that rule. `//website:site` takes them as inputs, so the site always ships the scripts it was tested with |
 | Layer 1: script text, generator, `sh -n` | `sh_test` and JVM tests, on every OS. They are hermetic and cacheable |
-| Layer 2: container lanes (dash, alpine, HTTPS side-car) | `sh_test` with `tags = ["requires-docker", "no-remote-exec"]`, through `@docker_cli`, with images pinned by digest like Hugo |
+| Layer 2: container lanes (dash, alpine, HTTPS side-car) | `sh_test` with `tags = ["requires-docker", "no-remote-exec"]` and images pinned by digest. This is where Docker belongs: the container is the thing under test. Find `docker` through a repository rule that also passes `DOCKER_HOST` and `DOCKER_CONTEXT` |
 | Layer 3: native macOS | Tests with `target_compatible_with = ["@platforms//os:macos"]`. They are skipped elsewhere and run on the macOS runner |
 | Layer 4: native Windows | `target_compatible_with = ["@platforms//os:windows"]`. `powershell.exe` and `pwsh` come from the host, tagged `local` |
 | Layer 5: release checks (real network) | `tags = ["manual", "requires-network"]`, run only by the release workflow |

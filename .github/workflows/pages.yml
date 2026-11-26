@@ -33,7 +33,7 @@ jobs:
           bazelisk-cache: true
           disk-cache: ${{ github.workflow }}
           repository-cache: true
-      - name: Build and test the site with Bazel (Hugo in Docker)
+      - name: Build and test the site with Bazel
         run: ./bazelw test --config=ci //website/...
       - name: Copy the site out of bazel-bin
         run: cp -RL bazel-bin/website/site _site && chmod -R u+w _site

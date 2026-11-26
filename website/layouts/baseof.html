@@ -1,5 +1,5 @@
-{{- if ne (getenv "HUGO_REDVIG_DOCKER") "1" -}}
-  {{- errorf "Build the redvig website with ./bazelw build //website:site (Hugo in Docker); running Hugo directly is not supported." -}}
+{{- if ne (getenv "HUGO_REDVIG_BAZEL") "1" -}}
+  {{- errorf "Build the redvig website with ./bazelw build //website:site (or preview with ./bazelw run //website:dev); running Hugo directly is not supported." -}}
 {{- end -}}
 <!doctype html>
 <html lang="en">

@@ -25,4 +25,6 @@ sh_test(
 sh_binary(
     name = "dev",
     srcs = ["dev.sh"],
+    args = ["$(rootpath //tools/hugo)"],
+    data = ["//tools/hugo"],
 )

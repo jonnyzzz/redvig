@@ -2,10 +2,13 @@
 
 module(name = "redvig")
 
+bazel_dep(name = "platforms", version = "1.0.0")
+
 # Bazel 9 has no built-in sh_binary/sh_test; they come from rules_shell.
 bazel_dep(name = "rules_shell", version = "0.10.0")
 
-# The host's Docker CLI, used to run pinned container images (Hugo) inside build actions.
-docker_cli = use_repo_rule("//tools/docker:repo.bzl", "docker_cli")
+# Pinned Hugo release binaries, one per platform, picked by toolchain resolution.
+hugo = use_extension("//tools/hugo:extensions.bzl", "hugo")
+use_repo(hugo, "hugo_darwin", "hugo_linux_amd64", "hugo_linux_arm64", "hugo_windows_amd64", "hugo_windows_arm64")
 
-docker_cli(name = "docker_cli")
+register_toolchains("//tools/hugo:all")

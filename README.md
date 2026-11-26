@@ -4,7 +4,7 @@ Static tools to boost AI coding. The website source for [redvig.dev](https://red
 
 ## Build
 
-Bazel builds the whole repository. You do not need to install it: run the committed wrapper `./bazelw` (`bazelw.cmd` on Windows), which downloads a pinned, checksum-verified [Bazelisk](https://github.com/bazelbuild/bazelisk), which in turn downloads the Bazel version in [.bazelversion](.bazelversion). The website also needs Docker to be running.
+Bazel builds the whole repository. You do not need to install it: run the committed wrapper `./bazelw` (`bazelw.cmd` on Windows), which downloads a pinned, checksum-verified [Bazelisk](https://github.com/bazelbuild/bazelisk), which in turn downloads the Bazel version in [.bazelversion](.bazelversion). Nothing else is needed: Hugo is downloaded the same way.
 
 ```sh
 ./bazelw test //...                  # build and test everything
@@ -13,7 +13,7 @@ Bazel builds the whole repository. You do not need to install it: run the commit
 ./bazelw run //website:dev -- 8080   # preview on another port
 ```
 
-Hugo runs only in the pinned Docker image ([tools/hugo/IMAGE](tools/hugo/IMAGE)), and the layout refuses to render otherwise. The first run downloads Bazel and pulls the image. Dev mode serves from memory, includes drafts, and rebuilds when files under `website/` change. See [specs/build/bazel.md](specs/build/bazel.md) for how the build is set up.
+Hugo is a pinned, checksum-verified release binary ([tools/hugo/extensions.bzl](tools/hugo/extensions.bzl)), and the layout refuses to render outside Bazel. The first run downloads Bazel and Hugo. Dev mode serves from memory, includes drafts, and rebuilds when files under `website/` change. See [specs/build/bazel.md](specs/build/bazel.md) for how the build is set up.
 
 ## GitHub Pages
 

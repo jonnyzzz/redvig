@@ -16,11 +16,12 @@
 
 ## Website
 
-- The site is Hugo under `website/`. Hugo runs **only** in the pinned Docker image, through Bazel or the dev script:
+- The site is Hugo under `website/`. Hugo runs **only** through Bazel, as a pinned release binary (`tools/hugo/extensions.bzl`) picked by toolchain resolution:
   - `./bazelw build //website:site` makes the production build in `bazel-bin/website/site/`, and `//website:site_test` checks it.
   - `./bazelw run //website:dev [-- PORT]` runs the live-reload preview at `http://localhost:1313/`.
-- Never build or serve the site any other way: no local `hugo`, `python -m http.server`, `npx serve`, or opening HTML from disk. `layouts/baseof.html` fails the build unless `HUGO_REDVIG_DOCKER=1` is set by our scripts. Keep that guard.
-- `tools/hugo/IMAGE` pins the Hugo image by digest. The build action runs it with `--network none` and `--panicOnWarning`, so fix deprecation warnings rather than silencing them.
+- Never build or serve the site any other way: no local `hugo`, `python -m http.server`, `npx serve`, or opening HTML from disk. `layouts/baseof.html` fails the build unless `HUGO_REDVIG_BAZEL=1` is set by our Bazel targets. Keep that guard.
+- `tools/hugo/extensions.bzl` pins the Hugo version and the SHA-256 of each platform's archive. The build action blocks the network and runs with `--panicOnWarning`, so fix deprecation warnings rather than silencing them.
+- Docker is not part of the website build. Keep it for tests that need a container, such as the install-script lanes.
 - Pages:
   - `layouts/baseof.html` holds the shared head, nav, and footer.
   - `layouts/home.html` is the homepage.
