@@ -1,0 +1,28 @@
+load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
+load("@rules_shell//shell:sh_test.bzl", "sh_test")
+load("//tools/hugo:defs.bzl", "hugo_site")
+
+# The production site for redvig.dev, as a directory: bazel-bin/website/site/
+hugo_site(
+    name = "site",
+    srcs = ["hugo.toml"] + glob([
+        "content/**",
+        "layouts/**",
+        "static/**",
+    ]),
+    visibility = ["//visibility:public"],
+)
+
+sh_test(
+    name = "site_test",
+    size = "small",
+    srcs = ["site_test.sh"],
+    args = ["$(rootpath :site)"],
+    data = [":site"],
+)
+
+# Live-reload preview: bazel run //website:dev [-- PORT]
+sh_binary(
+    name = "dev",
+    srcs = ["dev.sh"],
+)

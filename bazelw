@@ -1,0 +1,72 @@
+#!/bin/sh
+# Bazel wrapper: the only thing you need to build redvig (plus Docker for the website).
+# Like gradlew, it is committed to the repository. It downloads a pinned Bazelisk,
+# checks its SHA-256, caches it, and runs it. Bazelisk then downloads the Bazel
+# version from .bazelversion. Use it exactly like `bazel`:
+#
+#   ./bazelw build //...
+#   ./bazelw test //...
+#   ./bazelw run //website:dev
+set -eu
+
+bazelisk_version='v1.31.0'
+
+fail() {
+  echo "bazelw: $*" >&2
+  exit 1
+}
+
+case "$(uname -s)" in
+  Darwin) os=darwin ;;
+  Linux) os=linux ;;
+  *) fail "unsupported OS: $(uname -s); on Windows use bazelw.cmd" ;;
+esac
+case "$(uname -m)" in
+  x86_64 | amd64) cpu=amd64 ;;
+  arm64 | aarch64) cpu=arm64 ;;
+  *) fail "unsupported CPU: $(uname -m)" ;;
+esac
+
+# SHA-256 of each release asset, from https://github.com/bazelbuild/bazelisk/releases
+case "$os-$cpu" in
+  darwin-amd64) sha256='27d346ae674aed387a9b6b8f3b6ebd2aca43af9cf0f751b9544def0c95aeda67' ;;
+  darwin-arm64) sha256='c3e737c6728970d967a9b0a06d1314fe1b829224f13ffc2360b9b97dae8db0d8' ;;
+  linux-amd64) sha256='37c6c243a5a0d2cb6a16a74012c108c47ae9eb5c0455251881e66e7f393a4ce1' ;;
+  linux-arm64) sha256='202bd85dfd6b427187ffa0cf4892dbae7796ddd37a66f69c75519260492c4aaf' ;;
+esac
+
+asset="bazelisk-$os-$cpu"
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/redvig/bazelisk/$bazelisk_version"
+bazelisk="$cache_dir/$asset"
+
+file_sha256() {
+  if command -v sha256sum >/dev/null 2>&1; then
+    sha256sum "$1" | cut -d ' ' -f 1
+  elif command -v shasum >/dev/null 2>&1; then
+    shasum -a 256 "$1" | cut -d ' ' -f 1
+  else
+    fail 'sha256sum or shasum is required'
+  fi
+}
+
+if [ ! -x "$bazelisk" ]; then
+  url="https://github.com/bazelbuild/bazelisk/releases/download/$bazelisk_version/$asset"
+  mkdir -p "$cache_dir"
+  tmp=$(mktemp "$cache_dir/.tmp.XXXXXX")
+  trap 'rm -f "$tmp"' EXIT
+  echo "bazelw: downloading $url" >&2
+  if command -v curl >/dev/null 2>&1; then
+    curl -fsSL --retry 3 --connect-timeout 30 -o "$tmp" "$url" || fail "download failed: $url"
+  elif command -v wget >/dev/null 2>&1; then
+    wget -q --tries=3 -O "$tmp" "$url" || fail "download failed: $url"
+  else
+    fail 'curl or wget is required'
+  fi
+  actual=$(file_sha256 "$tmp")
+  [ "$actual" = "$sha256" ] || fail "SHA-256 mismatch for $asset: expected $sha256, got $actual"
+  chmod 0755 "$tmp"
+  mv -f "$tmp" "$bazelisk"
+  trap - EXIT
+fi
+
+exec "$bazelisk" "$@"

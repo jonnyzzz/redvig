@@ -5,6 +5,12 @@ on:
     branches: [main]
     paths:
       - website/**
+      - tools/**
+      - MODULE.bazel
+      - MODULE.bazel.lock
+      - .bazelrc
+      - .bazelversion
+      - bazelw
       - .github/workflows/pages.yml
   workflow_dispatch:
 
@@ -22,11 +28,18 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - name: Build Hugo in Docker
-        run: ./website/build.sh
+      - uses: bazel-contrib/setup-bazel@0.19.2
+        with:
+          bazelisk-cache: true
+          disk-cache: ${{ github.workflow }}
+          repository-cache: true
+      - name: Build and test the site with Bazel (Hugo in Docker)
+        run: ./bazelw test --config=ci //website/...
+      - name: Copy the site out of bazel-bin
+        run: cp -RL bazel-bin/website/site _site && chmod -R u+w _site
       - uses: actions/upload-pages-artifact@v5
         with:
-          path: website/public
+          path: _site
 
   deploy:
     if: github.ref == 'refs/heads/main'

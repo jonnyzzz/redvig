@@ -1,0 +1,18 @@
+# Shared Bazel settings. Put machine-specific flags in user.bazelrc (ignored by git).
+
+# Actions see a fixed PATH, so results do not depend on the shell that started Bazel.
+common --incompatible_strict_action_env
+
+# Keep MODULE.bazel.lock in sync; CI checks it is committed up to date.
+common --lockfile_mode=update
+
+# Show logs of failing tests only.
+test --test_output=errors
+test --test_summary=terse
+
+# CI: fail if MODULE.bazel.lock is stale, and print timestamps.
+common:ci --lockfile_mode=error
+common:ci --color=yes
+common:ci --show_timestamps
+
+try-import %workspace%/user.bazelrc

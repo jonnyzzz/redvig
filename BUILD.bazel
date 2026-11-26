@@ -1,0 +1,4 @@
+# The repository root is the Bazel workspace. Targets live next to their sources:
+#   //website:site      the redvig.dev site (Hugo in pinned Docker)
+#   //website:site_test checks on the built site
+#   //website:dev       live-reload preview (bazel run)

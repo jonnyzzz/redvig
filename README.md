@@ -2,17 +2,18 @@
 
 Static tools to boost AI coding. The website source for [redvig.dev](https://redvig.dev/) lives in [website/](website/).
 
-## Build the website
+## Build
 
-The website builds only in Docker, through [website/build.sh](website/build.sh). Start Docker and run the script from the repository root. Running Hugo directly is not supported, and the layout fails the build when it is not run by the script.
+Bazel builds the whole repository. You do not need to install it: run the committed wrapper `./bazelw` (`bazelw.cmd` on Windows), which downloads a pinned, checksum-verified [Bazelisk](https://github.com/bazelbuild/bazelisk), which in turn downloads the Bazel version in [.bazelversion](.bazelversion). The website also needs Docker to be running.
 
 ```sh
-./website/build.sh            # production build into website/public/
-./website/build.sh dev        # live-reload preview at http://localhost:1313/
-./website/build.sh dev 8080   # preview on another port
+./bazelw test //...                  # build and test everything
+./bazelw build //website:site        # production site in bazel-bin/website/site/
+./bazelw run //website:dev           # live-reload preview at http://localhost:1313/
+./bazelw run //website:dev -- 8080   # preview on another port
 ```
 
-Both modes use the same pinned Hugo image, and the first run pulls it. Dev mode serves from memory and includes drafts. It rebuilds when files under `website/` change. Press Ctrl+C to stop it.
+Hugo runs only in the pinned Docker image ([tools/hugo/IMAGE](tools/hugo/IMAGE)), and the layout refuses to render otherwise. The first run downloads Bazel and pulls the image. Dev mode serves from memory, includes drafts, and rebuilds when files under `website/` change. See [specs/build/bazel.md](specs/build/bazel.md) for how the build is set up.
 
 ## GitHub Pages
 

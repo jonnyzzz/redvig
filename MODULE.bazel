@@ -1,0 +1,11 @@
+"""redvig: the root build for the whole repository (website, install scripts, tests, and later the JVM code)."""
+
+module(name = "redvig")
+
+# Bazel 9 has no built-in sh_binary/sh_test; they come from rules_shell.
+bazel_dep(name = "rules_shell", version = "0.10.0")
+
+# The host's Docker CLI, used to run pinned container images (Hugo) inside build actions.
+docker_cli = use_repo_rule("//tools/docker:repo.bzl", "docker_cli")
+
+docker_cli(name = "docker_cli")

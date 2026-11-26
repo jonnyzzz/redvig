@@ -6,13 +6,21 @@
 - **devrig ([devrig.dev](https://devrig.dev/)) is the previous version, not redvig.** Never sell, install, or document devrig on redvig pages, and never present devrig's claims or numbers as redvig's. You may mention it only as "our previous version", for example when linking to its published eval findings.
 - redvig works with any coding agent and any model provider or subscription. It is built on an open-source core.
 
+## Build
+
+- **Bazel is the root build system** for the whole repository: the website now, then the install scripts, their tests, and the JVM code. See [specs/build/bazel.md](specs/build/bazel.md).
+- Always run Bazel through the committed wrapper, `./bazelw` (`bazelw.cmd` on Windows). Never ask anyone to install Bazel. The wrapper pins Bazelisk by SHA-256, and `.bazelversion` pins Bazel.
+- `./bazelw test //...` builds and tests everything. CI runs the same command with `--config=ci`.
+- Bazel 9 has no built-in shell rules. Load `sh_binary` and `sh_test` from `@rules_shell`.
+- Commit `MODULE.bazel.lock`. CI fails when it is stale.
+
 ## Website
 
-- The site is Hugo under `website/`. It builds **only** in Docker through `website/build.sh`.
-  - `./website/build.sh` makes the production build in `website/public/`.
-  - `./website/build.sh dev [PORT]` runs the live-reload preview at `http://localhost:1313/`.
-- Never build or serve the site any other way: no local `hugo`, `python -m http.server`, `npx serve`, or opening HTML from disk. `layouts/baseof.html` fails the build unless `build.sh` runs it. Keep that guard.
-- Pin the Hugo image by digest in `build.sh`. Production builds run with `--network none` and `--panicOnWarning`, so fix deprecation warnings rather than silencing them.
+- The site is Hugo under `website/`. Hugo runs **only** in the pinned Docker image, through Bazel or the dev script:
+  - `./bazelw build //website:site` makes the production build in `bazel-bin/website/site/`, and `//website:site_test` checks it.
+  - `./bazelw run //website:dev [-- PORT]` runs the live-reload preview at `http://localhost:1313/`.
+- Never build or serve the site any other way: no local `hugo`, `python -m http.server`, `npx serve`, or opening HTML from disk. `layouts/baseof.html` fails the build unless `HUGO_REDVIG_DOCKER=1` is set by our scripts. Keep that guard.
+- `tools/hugo/IMAGE` pins the Hugo image by digest. The build action runs it with `--network none` and `--panicOnWarning`, so fix deprecation warnings rather than silencing them.
 - Pages:
   - `layouts/baseof.html` holds the shared head, nav, and footer.
   - `layouts/home.html` is the homepage.

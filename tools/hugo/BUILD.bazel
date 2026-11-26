@@ -1,0 +1,6 @@
+# IMAGE pins the Hugo container by digest. Both the build rule and the dev preview read it,
+# so changing it rebuilds the site.
+exports_files([
+    "IMAGE",
+    "hugo_build.sh",
+])
