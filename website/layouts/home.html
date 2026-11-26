@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ .Site.Title }} — {{ .Title }}</title>
+  <meta name="description" content="{{ .Description }}">
+  <link rel="canonical" href="{{ .Permalink }}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ .Site.Title }}">
+  <meta property="og:title" content="{{ .Site.Title }} — {{ .Title }}">
+  <meta property="og:description" content="{{ .Description }}">
+  <meta property="og:url" content="{{ .Permalink }}">
+  <meta property="og:image" content="{{ "assets/preview.png" | absURL }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The redvig Aperture icon">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="{{ "assets/preview.png" | absURL }}">
+  <link rel="icon" href="assets/favicon.ico" sizes="16x16 32x32 48x48">
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="assets/identity.css">
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="assets/install.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav wrap">
+    <a class="brand" href="./" aria-label="redvig home">
+      <img src="assets/logo-light.svg" width="156" height="38" alt="redvig">
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="#workflows">Workflows</a>
+      <a href="#evidence">Evidence</a>
+      <a href="https://devrig.dev/docs/">Docs</a>
+      <a class="button" href="#install">Get started <span aria-hidden="true">↘</span></a>
+    </nav>
+  </header>
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div>
+        <h1 id="hero-title">Give your<br class="hero-break"> coding agent<br class="hero-break"> a <span class="underlined">real IDE.</span></h1>
+        <p>Connect Claude Code, Codex, or Gemini to your JetBrains IDE. Give your agent the project model, typed refactors, inspections, a debugger, and real test runs.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#install">Get started <span aria-hidden="true">↘</span></a>
+          <a class="button" href="https://devrig.dev/demos/">Watch a demo <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <figure class="example">
+        <div class="example-head"><span>Rename a Java symbol</span><span>Example workflow</span></div>
+        <div class="sketch"><img src="assets/rename-sketch.svg" width="500" height="124" alt=""></div>
+        <ol class="trace">
+          <li><span>Resolve the declaration</span><code>Order.total()</code></li>
+          <li><span>Rename the symbol</span><code>Order.total<span class="changed">Amount</span>()</code></li>
+          <li><span>Verify the change</span><code>Run the affected tests</code></li>
+        </ol>
+        <figcaption>The IDE updates the references as part of the rename.</figcaption>
+      </figure>
+    </section>
+    <section class="install-band" id="install" aria-labelledby="install-title">
+      <div class="wrap install-layout">
+        <div>
+          <h2 id="install-title">Try it with devrig.</h2>
+          <p>The current release uses the <code>devrig</code> command and the <a href="https://plugins.jetbrains.com/plugin/30019-mcp-steroid">MCP Steroid plugin</a>.</p>
+        </div>
+        <div class="install-box">
+          <div class="platforms" role="group" aria-label="Operating system" hidden>
+            <button type="button" data-platform="mac" aria-pressed="true">macOS / Linux</button>
+            <button type="button" data-platform="windows" aria-pressed="false">Windows</button>
+          </div>
+          <div class="command" data-command="mac"><code>curl -fsSL https://devrig.dev/install.sh | sh</code><button class="copy" type="button" hidden>Copy</button></div>
+          <div class="command" data-command="windows"><code>irm https://devrig.dev/install.ps1 | iex</code><button class="copy" type="button" hidden>Copy</button></div>
+          <p class="install-next">Then run <code>devrig install codex</code>, or use <code>claude</code> or <code>gemini</code>. <a href="https://devrig.dev/docs/devrig/">Read the setup guide ↗</a></p>
+          <p class="copy-status" role="status"></p>
+        </div>
+      </div>
+    </section>
+    <section class="workflows wrap" id="workflows" aria-labelledby="workflow-title">
+      <h2 id="workflow-title">What your agent can do.</h2>
+      <div class="workflow-grid">
+        <article><h3>Find the right symbol</h3><p>Resolve declarations and follow their references across modules using the IDE’s project model.</p></article>
+        <article><h3>Change code structurally</h3><p>Run typed refactors and use IDE inspections to check the result.</p></article>
+        <article><h3>Check it by running it</h3><p>Use the IDE’s debugger and run configurations to investigate behavior and execute tests.</p></article>
+      </div>
+    </section>
+    <section class="evidence wrap" id="evidence" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">See the measured runs.</h2>
+      <div><p>Compare IDE-backed and shell-only agents on structural search, inspections, and safe rename. The published experiments include task definitions, scoring, and failure cases.</p><a href="https://devrig.dev/docs/experiment-findings/">Read the experiment findings ↗</a></div>
+    </section>
+  </main>
+  <footer class="site-footer wrap">
+    <span>{{ .Site.Copyright }}</span>
+    <a href="https://github.com/jonnyzzz/redvig">redvig on GitHub ↗</a>
+  </footer>
+</body>
+</html>
