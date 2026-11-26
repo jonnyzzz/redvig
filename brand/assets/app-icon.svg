@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img">
+  <title>redvig app icon</title>
+  <rect width="512" height="512" fill="#FBF8F3"/>
+  <g transform="translate(64 64) scale(6)">
+  <path fill="#E34A3C" d="M8 30V15a7 7 0 0 1 7-7h24L28 19h-9v11H8Zm48 4v15a7 7 0 0 1-7 7H25l11-11h9V34h11ZM32 23l9 9-9 9-9-9 9-9Z"/>
+  </g>
+</svg>

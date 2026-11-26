@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="124" viewBox="0 0 500 124" fill="none">
+  <defs>
+    <pattern id="hatch" width="5" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(33)">
+      <path d="M1 0v6" stroke="#B43229" stroke-width=".8" opacity=".45"/>
+    </pattern>
+  </defs>
+  <g stroke="#62574F" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M38 31c15-2 37-3 59-1l17 16 1 49c-23 1-52 2-78-1l1-63Z" stroke-width="1.7"/>
+    <path d="M96 31l1 16 17-1M42 27c18-2 38-1 53-1m24 28 1 40m-70-40c13-1 23 0 34 0M50 62l48-1m-48 9 38-1m-38 10 24-1" stroke-width="1.1"/>
+    <path d="M384 29c20-2 36-1 58-1l16 17 1 49c-27 2-53 2-76-1l1-64Z" stroke-width="1.7"/>
+    <path d="m442 29 1 17 15-1M389 25c14-1 30 0 49-1m25 28 1 42m-66-41 31-1m-31 10 49-1m-49 9 36-1m-36 9 27-1" stroke-width="1.1"/>
+    <path d="M146 61c27-8 45-8 61-5m-13-8 14 8-14 7m103-7c20-3 43-3 66 4m-10-9 13 10-15 4" stroke-width="1.45"/>
+    <path d="M148 65c21-6 37-7 54-6m97 1c22-4 41-2 58 3" stroke-width=".65" opacity=".65"/>
+  </g>
+  <g stroke="#B43229" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m250 29 32 28-30 30-33-28 31-30Z" fill="url(#hatch)" stroke-width="1.8"/>
+    <path d="m251 25 35 32-34 34-36-32" stroke-width="1.2"/>
+    <path d="m247 57 4-4 4 4-4 4-4-4Zm197 29 6 6 13-13m-17 8 4 3 11-10" stroke-width="1.8"/>
+    <path d="M245 14l2 7m18-6-4 7m-6 79-2-7m-17 4 4-7" stroke-width="1.35"/>
+    <path d="M48 66c17-1 31-1 48-1m300 1c17-1 34 0 49-2" stroke-width="1.1"/>
+  </g>
+</svg>

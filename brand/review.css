@@ -1,0 +1,42 @@
+.masthead { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 82px; border-bottom: 1px solid var(--line); }
+.intro { display: grid; grid-template-columns: 1.2fr 1fr; align-items: end; gap: 40px; padding: 62px 0 44px; }
+.intro h1 { font-size: clamp(52px, 7.1vw, 104px); line-height: .91; letter-spacing: -.095em; }
+.intro p { max-width: 400px; color: var(--muted); font-size: clamp(16px, 1.55vw, 21px); padding-bottom: 4px; }
+.options { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; list-style: none; margin: 0; padding: 0; }
+.option { display: grid; grid-template-rows: 158px 1fr; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.option.lead { border-color: var(--action); }
+.specimen { display: grid; place-items: center; background: #F5EDE4; }
+.lead .specimen { background: var(--ink); }
+.option:nth-child(3) .specimen { background: #EEE7DC; }
+.option:nth-child(4) .specimen { background: #F9EAE4; }
+.option:nth-child(5) .specimen { background: #F1E9DF; }
+.option-copy { position: relative; display: grid; grid-template-rows: auto 1fr auto; gap: 7px; padding: 33px 16px 12px; }
+.option-copy .pick { position: absolute; top: 11px; left: 16px; font: 700 10px/1 var(--mono); letter-spacing: .085em; text-transform: uppercase; color: var(--action); }
+.option-copy h2 { font-size: clamp(17px, 1.65vw, 25px); line-height: 1.13; letter-spacing: -.045em; }
+.option-copy p { font-size: 14px; line-height: 1.4; color: var(--muted); }
+.option-foot { display: flex; justify-content: space-between; align-items: center; gap: 6px; margin-top: 10px; border-top: 1px solid var(--line); padding-top: 8px; }
+.option-foot a { font: 700 12px/1 var(--mono); color: var(--action); }
+.samples { display: flex; gap: 6px; align-items: center; }
+.direction { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px 32px; padding: 22px 0 25px; margin: 30px 0 22px; border-block: 1px solid var(--line); }
+.direction > div:first-child { flex: 1 1 480px; }
+.direction h2 { font-size: 22px; letter-spacing: -.04em; }
+.direction p { margin-top: 3px; color: var(--muted); font-size: 15px; }
+.palette { display: flex; padding-left: 8px; }
+.swatch { width: 33px; height: 33px; margin-left: -8px; border: 2px solid var(--paper); border-radius: 50%; }
+.swatch.paper { background: var(--paper); border-color: var(--line); }
+.swatch.ink { background: var(--ink); }
+.swatch.signal { background: var(--signal); }
+.swatch.action { background: var(--action); }
+@media (max-width: 960px) {
+  .options { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .masthead .wordmark { width: 90px; }
+  .masthead .button { padding-inline: 9px; font-size: 13px; }
+  .intro { grid-template-columns: 1fr; gap: 20px; padding: 39px 0 27px; }
+  .options { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .option { grid-template-rows: 112px 1fr; }
+  .specimen img { width: 72px; height: 72px; }
+  .option-copy { padding-inline: 12px; }
+  .option-copy .pick { left: 12px; }
+}
