@@ -1,3 +1,6 @@
+{{- if ne (getenv "HUGO_REDVIG_DOCKER") "1" -}}
+  {{- errorf "Build the redvig website with ./website/build.sh (Docker only); running Hugo directly is not supported." -}}
+{{- end -}}
 <!doctype html>
 <html lang="en">
 <head>

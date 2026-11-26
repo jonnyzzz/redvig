@@ -1,5 +1,5 @@
 baseURL = "https://redvig.dev/"
-languageCode = "en"
+locale = "en"
 title = "redvig"
 copyright = "© 2026 Eugene Petrenko"
 disableKinds = ["taxonomy", "term"]
