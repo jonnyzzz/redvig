@@ -1,58 +1,16 @@
-{{- if ne (getenv "HUGO_REDVIG_DOCKER") "1" -}}
-  {{- errorf "Build the redvig website with ./website/build.sh (Docker only); running Hugo directly is not supported." -}}
-{{- end -}}
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ .Site.Title }} — {{ .Title }}</title>
-  <meta name="description" content="{{ .Description }}">
-  <link rel="canonical" href="{{ .Permalink }}">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="{{ .Site.Title }}">
-  <meta property="og:title" content="{{ .Site.Title }} — {{ .Title }}">
-  <meta property="og:description" content="{{ .Description }}">
-  <meta property="og:url" content="{{ .Permalink }}">
-  <meta property="og:image" content="{{ "assets/preview.png" | absURL }}">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="The redvig Aperture icon">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="{{ "assets/preview.png" | absURL }}">
-  <link rel="icon" href="assets/favicon.ico" sizes="16x16 32x32 48x48">
-  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-  <link rel="stylesheet" href="assets/identity.css">
-  <link rel="stylesheet" href="assets/site.css">
-  <script src="assets/install.js" defer></script>
-</head>
-<body>
-  <a class="skip" href="#main">Skip to content</a>
-  <header class="nav wrap">
-    <a class="brand" href="./" aria-label="redvig home">
-      <img src="assets/logo-light.svg" width="156" height="38" alt="redvig">
-    </a>
-    <nav aria-label="Main navigation">
-      <a href="#workflows">Workflows</a>
-      <a href="#evidence">Evidence</a>
-      <a href="https://devrig.dev/docs/">Docs</a>
-      <a class="button" href="#install">Get started <span aria-hidden="true">↘</span></a>
-    </nav>
-  </header>
-  <main id="main">
+{{ define "main" }}
     <section class="hero wrap" aria-labelledby="hero-title">
       <div>
         <h1 id="hero-title">Give your<br class="hero-break"> coding agent<br class="hero-break"> a <span class="underlined">real IDE.</span></h1>
-        <p>Connect Claude Code, Codex, or Gemini to your JetBrains IDE. Give your agent the project model, typed refactors, inspections, a debugger, and real test runs.</p>
+        <p>Use any coding agent with any model provider or subscription you already have. redvig gives it the project model, typed refactors, inspections, a debugger, and real test runs.</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="#install">Get started <span aria-hidden="true">↘</span></a>
-          <a class="button" href="https://devrig.dev/demos/">Watch a demo <span aria-hidden="true">↗</span></a>
+          <a class="button button-primary" href="{{ "pricing/" | relURL }}">Try it free <span aria-hidden="true">↘</span></a>
+          <a class="button" href="https://github.com/jonnyzzz/redvig">Open-source core <span aria-hidden="true">↗</span></a>
         </div>
       </div>
       <figure class="example">
         <div class="example-head"><span>Rename a Java symbol</span><span>Example workflow</span></div>
-        <div class="sketch"><img src="assets/rename-sketch.svg" width="500" height="124" alt=""></div>
+        <div class="sketch"><img src="{{ "assets/rename-sketch.svg" | relURL }}" width="500" height="124" alt=""></div>
         <ol class="trace">
           <li><span>Resolve the declaration</span><code>Order.total()</code></li>
           <li><span>Rename the symbol</span><code>Order.total<span class="changed">Amount</span>()</code></li>
@@ -61,22 +19,16 @@
         <figcaption>The IDE updates the references as part of the rename.</figcaption>
       </figure>
     </section>
-    <section class="install-band" id="install" aria-labelledby="install-title">
+    <section class="install-band" id="editions" aria-labelledby="editions-title">
       <div class="wrap install-layout">
         <div>
-          <h2 id="install-title">Try it with devrig.</h2>
-          <p>The current release uses the <code>devrig</code> command and the <a href="https://plugins.jetbrains.com/plugin/30019-mcp-steroid">MCP Steroid plugin</a>.</p>
+          <h2 id="editions-title">Free for personal use.</h2>
+          <p>redvig is built on an open-source core. Bring the agent and the model subscription you already use.</p>
         </div>
-        <div class="install-box">
-          <div class="platforms" role="group" aria-label="Operating system" hidden>
-            <button type="button" data-platform="mac" aria-pressed="true">macOS / Linux</button>
-            <button type="button" data-platform="windows" aria-pressed="false">Windows</button>
-          </div>
-          <div class="command" data-command="mac"><code>curl -fsSL https://devrig.dev/install.sh | sh</code><button class="copy" type="button" hidden>Copy</button></div>
-          <div class="command" data-command="windows"><code>irm https://devrig.dev/install.ps1 | iex</code><button class="copy" type="button" hidden>Copy</button></div>
-          <p class="install-next">Then run <code>devrig install codex</code>, or use <code>claude</code> or <code>gemini</code>. <a href="https://devrig.dev/docs/devrig/">Read the setup guide ↗</a></p>
-          <p class="copy-status" role="status"></p>
-        </div>
+        <ul class="edition-strip">
+          <li><span><strong>Personal</strong> Free. Try it on your own projects.</span><a href="{{ "pricing/" | relURL }}">Get started ↘</a></li>
+          <li><span><strong>Enterprise</strong> Tuned to your agents, IDEs, and providers.</span><a href="mailto:poc@redvig.dev?subject=redvig%20enterprise">Call us ↗</a></li>
+        </ul>
       </div>
     </section>
     <section class="workflows wrap" id="workflows" aria-labelledby="workflow-title">
@@ -88,13 +40,7 @@
       </div>
     </section>
     <section class="evidence wrap" id="evidence" aria-labelledby="evidence-title">
-      <h2 id="evidence-title">See the measured runs.</h2>
-      <div><p>Compare IDE-backed and shell-only agents on structural search, inspections, and safe rename. The published experiments include task definitions, scoring, and failure cases.</p><a href="https://devrig.dev/docs/experiment-findings/">Read the experiment findings ↗</a></div>
+      <h2 id="evidence-title">Built on measured runs.</h2>
+      <div><p>redvig is a new product. Our previous version, devrig, published runs that compared IDE-backed and shell-only agents on structural search, inspections, and safe rename, failures included. We keep running evals as we build redvig.</p><a href="https://devrig.dev/docs/experiment-findings/">Read the previous version’s findings ↗</a></div>
     </section>
-  </main>
-  <footer class="site-footer wrap">
-    <span>{{ .Site.Copyright }}</span>
-    <a href="https://github.com/jonnyzzz/redvig">redvig on GitHub ↗</a>
-  </footer>
-</body>
-</html>
+{{ end }}

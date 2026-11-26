@@ -27,17 +27,7 @@
 .install-layout h2, .workflows h2, .evidence h2 { font-size: clamp(35px, 4.3vw, 62px); letter-spacing: -.07em; line-height: 1; }
 .install-layout p { color: #D7CDC2; font-size: 15px; margin-top: 12px; }
 .install-band a:hover { color: #FFF; }
-.install-band a:focus-visible, .install-band button:focus-visible { outline-color: #FFA397; }
-.platforms { display: flex; flex-wrap: wrap; gap: 13px; }
-.platforms[hidden], .command[hidden], .copy[hidden] { display: none; }
-.platforms button { min-height: 35px; background: none; color: #E4DCD2; border: 0; border-bottom: 2px solid transparent; padding: 0 2px 5px; font: 700 12px/1 var(--mono); }
-.platforms [aria-pressed="true"] { color: #FFF; border-color: #FFA397; }
-.command { display: flex; gap: 8px; align-items: center; justify-content: space-between; padding: 8px; margin-top: 7px; min-height: 52px; border: 1px solid #817468; border-radius: 5px; background: #322C27; }
-.command code { font-size: clamp(12px, 1.18vw, 15px); padding-inline: 7px; overflow-wrap: anywhere; }
-.copy { border: 1px solid #C0B4A6; border-radius: 3px; background: transparent; color: #FFF; padding: 6px 10px; font-size: 13px; }
-.copy:hover { background: #4E4339; }
-.install-layout .install-next, .install-layout .copy-status { font-size: 13px; }
-.copy-status:empty { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.install-band a:focus-visible { outline-color: #FFA397; }
 .workflows { padding-block: 66px 54px; }
 .workflow-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 25px; margin-top: 28px; }
 .workflow-grid article { border-top: 2px solid var(--action); padding-top: 14px; }
@@ -63,3 +53,43 @@
   .install-layout, .workflow-grid, .evidence { grid-template-columns: 1fr; }
   .workflows { padding-block: 49px 38px; }
 }
+.nav nav a[aria-current="page"] { text-decoration: underline; text-decoration-color: var(--signal); text-decoration-thickness: 2px; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+.eyebrow { font: 700 12px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--action); }
+.pricing-hero { padding-block: clamp(44px, 6vw, 84px) clamp(28px, 4vw, 48px); }
+.pricing-hero h1 { margin-top: 14px; max-width: 900px; font-size: clamp(44px, 6vw, 88px); line-height: .96; letter-spacing: -.08em; }
+.pricing-hero > p:last-child { max-width: 600px; margin-top: 24px; color: var(--muted); font-size: clamp(16px, 1.53vw, 21px); line-height: 1.45; }
+.plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 25px; padding-bottom: clamp(48px, 6vw, 80px); }
+.plan { display: flex; flex-direction: column; gap: 18px; padding: clamp(22px, 2.6vw, 34px); border: 1px solid #CFC1B5; border-radius: 8px; background: #FFFDF9; }
+.plan-featured { box-shadow: 6px 6px 0 var(--soft); border-top: 3px solid var(--action); }
+.plan-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 16px; }
+.plan h2 { font-size: clamp(26px, 2.4vw, 34px); letter-spacing: -.055em; line-height: 1.05; }
+.plan-price { font: 700 14px/1 var(--mono); padding: 7px 10px; border-radius: 3px; background: var(--soft); }
+.plan-featured .plan-price { color: #FFF; background: var(--action); }
+.plan-lede { color: var(--muted); font-size: 17px; }
+.plan-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.plan-list li { position: relative; padding: 12px 0 12px 22px; border-bottom: 1px solid var(--line); font-size: 15px; }
+.plan-list li::before { content: ''; position: absolute; left: 2px; top: 1.15em; width: 9px; height: 9px; border-radius: 1px; background: var(--signal); }
+.plan-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: auto; padding-top: 6px; }
+.plan-note { font-size: 13px; color: var(--muted); }
+.funding .install-layout { align-items: start; padding-block: clamp(40px, 5vw, 64px); }
+.funding .eyebrow { color: #FFA397; }
+.funding h2 { margin-top: 10px; }
+.funding .install-layout p:not(.eyebrow) { font-size: 17px; line-height: 1.5; margin-top: 0; }
+.funding .install-layout p:not(.eyebrow) + p { margin-top: 12px; }
+.funding .button { margin-top: 22px; }
+.funding .button-primary { background: #C93A2F; border-color: #C93A2F; }
+@media (max-width: 890px) {
+  .plans { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .site-footer { flex-direction: column; }
+}
+.edition-strip { list-style: none; margin: 0; padding: 0; border-top: 1px solid #5A5048; }
+.edition-strip li { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 18px; padding: 15px 0; border-bottom: 1px solid #5A5048; }
+.edition-strip span { color: #D7CDC2; font-size: 15px; }
+.edition-strip strong { color: #FFF; margin-right: 10px; font: 700 13px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em; }
+.edition-strip a { font-weight: 700; color: #FFF; }
+.plan-list strong { font-weight: 700; }
+.why { padding-bottom: clamp(48px, 6vw, 76px); }
+.why h2 { font-size: clamp(30px, 3.4vw, 48px); letter-spacing: -.065em; line-height: 1; }

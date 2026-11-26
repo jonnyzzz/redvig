@@ -1,0 +1,63 @@
+{{ define "main" }}
+    <section class="pricing-hero wrap" aria-labelledby="pricing-title">
+      <p class="eyebrow">Pricing</p>
+      <h1 id="pricing-title">Try it. <span class="underlined">Tell us</span> what you find.</h1>
+      <p>Two editions on one open-source core. Use it free on your own projects, or talk to us about fitting it to your company’s setup.</p>
+    </section>
+    <section class="plans wrap" aria-label="Editions">
+      <article class="plan plan-featured" aria-labelledby="plan-personal">
+        <div class="plan-head">
+          <h2 id="plan-personal">Personal</h2>
+          <p class="plan-price">Free</p>
+        </div>
+        <p class="plan-lede">For developers who want to give their coding agent a real IDE.</p>
+        <ul class="plan-list">
+          <li>Works with any coding agent.</li>
+          <li>Bring any model provider or the subscription you already pay for.</li>
+          <li>Built on an open-source core.</li>
+          <li>Tell us what worked and what broke. Your feedback decides what we build next.</li>
+        </ul>
+        <div class="plan-actions">
+          <a class="button button-primary" href="https://github.com/jonnyzzz/redvig">Get started <span aria-hidden="true">↗</span></a>
+          <a class="button" href="https://github.com/jonnyzzz/redvig/issues">Share feedback <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="plan" aria-labelledby="plan-enterprise">
+        <div class="plan-head">
+          <h2 id="plan-enterprise">Enterprise</h2>
+          <p class="plan-price">Call us</p>
+        </div>
+        <p class="plan-lede">For teams that need redvig fine-tuned to their agents, IDEs, model providers, and internal tools.</p>
+        <ul class="plan-list">
+          <li><strong>Paid proof-of-concept</strong> on your own codebase before you roll it out.</li>
+          <li><strong>Enterprise support contract</strong> once it’s in daily use.</li>
+          <li>We tune it to your setup and measure the result on your tasks.</li>
+        </ul>
+        <div class="plan-actions">
+          <a class="button button-primary" href="mailto:poc@redvig.dev?subject=redvig%20enterprise">Email poc@redvig.dev</a>
+          <a class="button" href="https://jonnyzzz.com/services/">Services <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+    </section>
+    <section class="why wrap" aria-labelledby="why-title">
+      <h2 id="why-title">What enterprise contracts pay for.</h2>
+      <div class="workflow-grid">
+        <article><h3>Infrastructure</h3><p>The build, test, and eval machines that every release runs through.</p></article>
+        <article><h3>Evals</h3><p>Repeated runs across agents, models, and real codebases, so changes are measured rather than guessed.</p></article>
+        <article><h3>The product</h3><p>Steady work to make redvig the best way to give AI agents real tools.</p></article>
+      </div>
+    </section>
+    <section class="install-band funding" aria-labelledby="funding-title">
+      <div class="wrap install-layout">
+        <div>
+          <p class="eyebrow">Funding</p>
+          <h2 id="funding-title">We’re looking for funding.</h2>
+        </div>
+        <div>
+          <p>Funding goes first into evals. We want to run more agents and models on more real codebases, repeat every run, and publish the failures as well as the wins.</p>
+          <p>If you invest in developer tools or AI infrastructure, we’d like to talk.</p>
+          <a class="button button-primary" href="mailto:poc@redvig.dev?subject=redvig%20funding">Email poc@redvig.dev</a>
+        </div>
+      </div>
+    </section>
+{{ end }}

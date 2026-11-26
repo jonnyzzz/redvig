@@ -1,0 +1,55 @@
+{{- if ne (getenv "HUGO_REDVIG_DOCKER") "1" -}}
+  {{- errorf "Build the redvig website with ./website/build.sh (Docker only); running Hugo directly is not supported." -}}
+{{- end -}}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ .Site.Title }} — {{ .Title }}</title>
+  <meta name="description" content="{{ .Description }}">
+  <link rel="canonical" href="{{ .Permalink }}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ .Site.Title }}">
+  <meta property="og:title" content="{{ .Site.Title }} — {{ .Title }}">
+  <meta property="og:description" content="{{ .Description }}">
+  <meta property="og:url" content="{{ .Permalink }}">
+  <meta property="og:image" content="{{ "assets/preview.png" | absURL }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The redvig Aperture icon">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="{{ "assets/preview.png" | absURL }}">
+  <link rel="icon" href="{{ "assets/favicon.ico" | relURL }}" sizes="16x16 32x32 48x48">
+  <link rel="icon" href="{{ "assets/mark.svg" | relURL }}" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{{ "assets/apple-touch-icon.png" | relURL }}">
+  <link rel="stylesheet" href="{{ "assets/identity.css" | relURL }}">
+  <link rel="stylesheet" href="{{ "assets/site.css" | relURL }}">
+  {{- block "scripts" . }}{{ end }}
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav wrap">
+    <a class="brand" href="{{ "/" | relURL }}" aria-label="redvig home">
+      <img src="{{ "assets/logo-light.svg" | relURL }}" width="156" height="38" alt="redvig">
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="{{ "/#workflows" | relURL }}">Workflows</a>
+      <a href="{{ "/#evidence" | relURL }}">Evidence</a>
+      <a href="{{ "pricing/" | relURL }}"{{ if eq .RelPermalink ("pricing/" | relURL) }} aria-current="page"{{ end }}>Pricing</a>
+      <a class="button" href="{{ "pricing/" | relURL }}">Get started <span aria-hidden="true">↘</span></a>
+    </nav>
+  </header>
+  <main id="main">
+    {{- block "main" . }}{{ end }}
+  </main>
+  <footer class="site-footer wrap">
+    <span>{{ .Site.Copyright }}</span>
+    <span class="footer-links">
+      <a href="{{ "pricing/" | relURL }}">Pricing</a>
+      <a href="mailto:poc@redvig.dev">poc@redvig.dev</a>
+      <a href="https://github.com/jonnyzzz/redvig">redvig on GitHub ↗</a>
+    </span>
+  </footer>
+</body>
+</html>
