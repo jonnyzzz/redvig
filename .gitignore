@@ -1,2 +1,7 @@
 /bazel-*
 /user.bazelrc
+
+# Hugo default outputs; the site builds only through Bazel into bazel-bin/
+/website/public/
+/website/resources/
+.hugo_build.lock

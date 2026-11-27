@@ -5,7 +5,7 @@ set -eu
 site=$1
 fail() { echo "FAIL: $*" >&2; exit 1; }
 
-for page in index.html pricing/index.html; do
+for page in index.html pricing/index.html plugin-testing/index.html; do
   test -s "$site/$page" || fail "missing page $page"
 done
 test "$(cat "$site/CNAME")" = redvig.dev || fail 'CNAME is not redvig.dev'
