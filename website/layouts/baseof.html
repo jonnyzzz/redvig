@@ -36,6 +36,7 @@
     <nav aria-label="Main navigation">
       <a href="{{ "/#workflows" | relURL }}">Workflows</a>
       <a href="{{ "/#evidence" | relURL }}">Evidence</a>
+      <a href="{{ "plugin-testing/" | relURL }}"{{ if eq .RelPermalink ("plugin-testing/" | relURL) }} aria-current="page"{{ end }}>Plugin testing</a>
       <a href="{{ "pricing/" | relURL }}"{{ if eq .RelPermalink ("pricing/" | relURL) }} aria-current="page"{{ end }}>Pricing</a>
       <a class="button" href="{{ "pricing/" | relURL }}">Get started <span aria-hidden="true">↘</span></a>
     </nav>
@@ -46,6 +47,7 @@
   <footer class="site-footer wrap">
     <span>{{ .Site.Copyright }}</span>
     <span class="footer-links">
+      <a href="{{ "plugin-testing/" | relURL }}">Plugin testing</a>
       <a href="{{ "pricing/" | relURL }}">Pricing</a>
       <a href="mailto:poc@redvig.dev">poc@redvig.dev</a>
       <a href="https://github.com/jonnyzzz/redvig">redvig on GitHub ↗</a>

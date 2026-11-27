@@ -1,0 +1,78 @@
+{{ define "main" }}
+    <section class="pricing-hero wrap" aria-labelledby="testing-title">
+      <p class="eyebrow">For plugin and platform teams</p>
+      <h1 id="testing-title">See your plugin in a <span class="underlined">real IDE.</span></h1>
+      <p>We start a real JetBrains IDE in a container, install your plugin, and let an AI agent work through your scenarios, the way your users and their agents will. Every run leaves a video, screenshots, logs, and a report.</p>
+    </section>
+    <section class="workflows wrap" aria-labelledby="harness-title">
+      <h2 id="harness-title">How the test harness works.</h2>
+      <div class="workflow-grid">
+        <article><h3>A real IDE in a container</h3><p>Linux, a virtual display, and the IDE itself. We configure it through typed IntelliJ APIs, import the project, and wait until indexing is done.</p></article>
+        <article><h3>Driven by a real agent</h3><p>Claude Code, Codex, or Gemini runs your task against the running IDE. Nothing is mocked, so you see what an agent actually does with your plugin.</p></article>
+        <article><h3>Every run is recorded</h3><p>A screen video, screenshots, the agent’s tool calls, and the IDE logs. If the IDE hangs on a dialog, we take a thread dump before stopping it.</p></article>
+        <article><h3>12 IDE products</h3><p>IntelliJ IDEA, PyCharm, GoLand, WebStorm, Rider, CLion, PhpStorm, RubyMine, RustRover, DataGrip, MPS, and Android Studio.</p></article>
+        <article><h3>Several IDE versions</h3><p>Build your plugin once, then run the same binary on newer releases and EAP builds, with Plugin Verifier on top.</p></article>
+        <article><h3>Measured, not narrated</h3><p>The report is computed from the run data, never written by an agent. Failures stay in it.</p></article>
+      </div>
+      <p class="plan-note">Linux containers by default. macOS and Windows runs on request.</p>
+    </section>
+    <section class="plans plans-three wrap" aria-label="Ways to work with us">
+      <article class="plan" aria-labelledby="offer-free">
+        <div class="plan-head">
+          <h2 id="offer-free">Watch and try</h2>
+          <p class="plan-price">Free</p>
+        </div>
+        <p class="plan-lede">The harness is open source. We built it for our previous version, devrig.</p>
+        <ul class="plan-list">
+          <li>Watch recorded runs of agents working in the IDE.</li>
+          <li>Read the code of the containers, drivers, and reports on GitHub.</li>
+          <li>Run it yourself and tell us what broke.</li>
+        </ul>
+        <div class="plan-actions">
+          <a class="button button-primary" href="https://www.youtube.com/playlist?list=PLitZWClhc4Qgz3w8qrtctMR_lpIc81n0f">Watch the videos <span aria-hidden="true">↗</span></a>
+          <a class="button" href="https://github.com/jonnyzzz/mcp-steroid/tree/main/test-integration">Harness on GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="plan plan-featured" aria-labelledby="offer-saas">
+        <div class="plan-head">
+          <h2 id="offer-saas">We run your tests</h2>
+          <p class="plan-price">Call us</p>
+        </div>
+        <p class="plan-lede">You send the plugin and the scenarios. We run them and send back the evidence.</p>
+        <ul class="plan-list">
+          <li>Your scenarios across the IDE products and versions you support.</li>
+          <li>A video, screenshots, and logs for every run.</li>
+          <li>A report of what passed, what failed, and where the agent got stuck.</li>
+        </ul>
+        <div class="plan-actions">
+          <a class="button button-primary" href="mailto:poc@redvig.dev?subject=redvig%20plugin%20testing">Email poc@redvig.dev</a>
+        </div>
+      </article>
+      <article class="plan" aria-labelledby="offer-consulting">
+        <div class="plan-head">
+          <h2 id="offer-consulting">Build it in your CI</h2>
+          <p class="plan-price">Call us</p>
+        </div>
+        <p class="plan-lede">We help your team set up the same approach on your own infrastructure.</p>
+        <ul class="plan-list">
+          <li>IDE images, configuration, and project import that do not hang.</li>
+          <li>Agent drivers, recording, and reports for your CI.</li>
+          <li>Your scenarios turned into repeatable tests.</li>
+        </ul>
+        <div class="plan-actions">
+          <a class="button button-primary" href="mailto:poc@redvig.dev?subject=redvig%20plugin%20testing%20setup">Email poc@redvig.dev</a>
+          <a class="button" href="https://jonnyzzz.com/services/">Services <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+    </section>
+    <section class="workflows wrap" aria-labelledby="videos-title">
+      <h2 id="videos-title">Recorded runs.</h2>
+      <p class="plan-note">Agents working in a real JetBrains IDE with our previous version.</p>
+      <ul class="video-grid">
+        <li><a href="https://www.youtube.com/watch?v=6ByedA15n8Q&amp;list=PLitZWClhc4Qgz3w8qrtctMR_lpIc81n0f"><img src="https://img.youtube.com/vi/6ByedA15n8Q/mqdefault.jpg" width="320" height="180" alt="" loading="lazy"><span>An agent refactors in IntelliJ</span><small>1:00</small></a></li>
+        <li><a href="https://www.youtube.com/watch?v=JGcRk7Y3-Z8&amp;list=PLitZWClhc4Qgz3w8qrtctMR_lpIc81n0f"><img src="https://img.youtube.com/vi/JGcRk7Y3-Z8/mqdefault.jpg" width="320" height="180" alt="" loading="lazy"><span>An agent runs IDE tasks</span><small>2:21</small></a></li>
+        <li><a href="https://www.youtube.com/watch?v=8MjogrpfXLU&amp;list=PLitZWClhc4Qgz3w8qrtctMR_lpIc81n0f"><img src="https://img.youtube.com/vi/8MjogrpfXLU/mqdefault.jpg" width="320" height="180" alt="" loading="lazy"><span>Debugging from the agent</span><small>8:25</small></a></li>
+        <li><a href="https://www.youtube.com/watch?v=ibc0saTT06M&amp;list=PLitZWClhc4Qgz3w8qrtctMR_lpIc81n0f"><img src="https://img.youtube.com/vi/ibc0saTT06M/mqdefault.jpg" width="320" height="180" alt="" loading="lazy"><span>Real work in a monorepo</span><small>18:37</small></a></li>
+      </ul>
+    </section>
+{{ end }}
